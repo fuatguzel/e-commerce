@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const CryptoJS = require('crypto-js')
+const jwt = require('jsonwebtoken')
 
 // Register
 router.post('/register', async(req, res) => {
@@ -25,7 +26,6 @@ router.post('/register', async(req, res) => {
 })
 
 // Login
-
 router.post('/login', async(req, res) => {
   try{
     const user = await User.findOne({userName: req.body.userName})
@@ -41,9 +41,17 @@ router.post('/login', async(req, res) => {
 
     decryptedPassword !== req.body.password && res.status(401).json("Wron credentials!")
 
+    const accessToken = jwt.sign({
+      id: user.id,
+      isAdmin: user.isAdmin
+    }, 
+      process.env.JWT_SECRET_KEY,
+      {expiresIn:'1d'} // 1 day later will expire
+    )
+
     const { password, ...others} = user._doc;
 
-    res.status(200).json(others)
+    res.status(200).json({...others, accessToken});
   } catch(error) {
     res.statusCode(500).json(error)
   }
