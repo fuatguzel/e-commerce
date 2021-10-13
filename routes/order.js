@@ -47,7 +47,7 @@ router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
 // Get user orders from the database.
 router.get('/find/:userId', verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const orders = Order.find({
+    const orders = await Order.find({
       userId: req.params.userId
     })
     res.status(200).json(orders)
@@ -59,14 +59,14 @@ router.get('/find/:userId', verifyTokenAndAuthorization, async (req, res) => {
 // Get all orders from the database.
 router.get('/', verifyTokenAndAdmin, async (req, res) => {
   try {
-    const orders = Order.find()
+    const orders = await Order.find()
     res.status(200).json(orders)
   } catch (error) {
     res.status(500).json(error)
   }
 })
 
-// 
+// Get Incomes orders from the database.
 router.get('/income', verifyTokenAndAdmin, async (req, res) => {
   const date = new Date()
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
