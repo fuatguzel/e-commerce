@@ -23,7 +23,7 @@ const OrderSchema = new Schema(
       type: Number,
       required: true
     },
-    adress: {
+    address: {
       type: Object,
       required: true
     },
