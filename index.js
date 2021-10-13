@@ -16,11 +16,11 @@ mongoose
   .catch((err) => console.log(err))
 
   app.use(express.json())
-app.use('/api/auth', authRoute)
-app.use('/api/users', userRoute)
-app.use('/api/products', productRoute)
-app.use('/api/carts', cartRoute)
-app.use('/api/orders', orderRoute)
+app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/users', userRoute)
+app.use('/api/v1/products', productRoute)
+app.use('/api/v1/carts', cartRoute)
+app.use('/api/v1/orders', orderRoute)
 
 app.listen(process.env.PORT || 5000, (req, res) => {
   console.log("Server is running...")
